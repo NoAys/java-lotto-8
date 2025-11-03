@@ -22,4 +22,38 @@ class LottoTest {
     }
 
     // TODO: 추가 기능 구현에 따른 테스트 코드 작성
+    @DisplayName("로또 번호가 6개 미만이면 예외가 발생한다.")
+    @Test
+    void 로또_번호가_6개_미만이면_예외가_발생한다() {
+        assertThatThrownBy(() -> new Lotto(List.of(1, 2, 3, 4, 5)))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("로또 번호가 1보다 작거나 45보다 크면 예외가 발생한다.")
+    @Test
+    void 로또_번호가_범위_벗어나면_예외가_발생한다() {
+        assertThatThrownBy(() -> new Lotto(List.of(0, 2, 3, 4, 5, 6)))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Lotto(List.of(1, 2, 3, 4, 5, 46)))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("로또 번호가 숫자가 아니면 예외가 발생한다.")
+    @Test
+    void 로또_번호가_숫자가_아니면_예외가_발생한다(){
+        assertThatThrownBy(() -> {
+            Integer.parseInt("abc");
+        }).isInstanceOf((NumberFormatException.class));
+    }
+
+    @DisplayName("보너스 번호가 당첨 번호와 중복되면 예외가 발생한다.")
+    @Test
+    void 보너스_번호가_당첨_번호와_중복되면_예외가_발생한다() {
+        List<Integer> winningNumbers = List.of(1, 2, 3, 4, 5, 6);
+        int bonus = 3;
+
+        assertThatThrownBy(() -> Application.validateBonusNumber(winningNumbers, bonus))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 보너스 번호는 당첨 번호와 중복 될 수 없습니다.");
+    }
 }
