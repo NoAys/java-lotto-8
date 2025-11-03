@@ -6,13 +6,6 @@ import java.util.*;
 
 
 public class Application {
-    private static final Map<Integer, Integer> PRIZE_MAP = Map.of(
-            6, 2_000_000_000,
-            5, 1_500_000,
-            4, 50_000,
-            3, 5_000
-    );
-
     public static void main(String[] args) {
         // TODO: 프로그램 구현
 
