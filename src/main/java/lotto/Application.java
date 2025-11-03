@@ -7,7 +7,25 @@ public class Application {
         // TODO: 프로그램 구현
 
         System.out.println("구입금액을 입력해 주세요.");
-        String input = Console.readLine();
-        int purchase = Integer.parseInt(input);
+        int input = readPurchase();
+    }
+
+    private static int readPurchase(){
+        try {
+            int amount = Integer.parseInt(Console.readLine());
+            verification(amount);
+            return amount;
+        } catch (NumberFormatException e){
+            throw new IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.");
+        }
+    }
+
+    private static void verification(int amount) {
+        if (amount < 1000) {
+            throw new IllegalArgumentException("[ERROR] 최소 1,000원 이상 입력해야 합니다.");
+        }
+        if (amount % 1000 != 0){
+            throw new IllegalArgumentException("[ERROR] 구입 금액은 1,000원 단위여야 합니다.");
+        }
     }
 }
