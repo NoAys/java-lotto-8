@@ -30,6 +30,7 @@ public class Application {
 
         Map<String, Integer> results = checkResults(lottos, winningNumbers, bonus);
         printResults(results);
+        printProfit(results, purchase);
     }
 
     // 로또 당첨 결과 판별
@@ -68,6 +69,18 @@ public class Application {
         System.out.println("5개 일치 (1,500,000)원 -" + results.get("5") + "개");
         System.out.println("5개 일치, 보너스 볼 일치 (30,000,000)원 -" + results.get("5_bonus") + "개");
         System.out.println("6개 일치 (2,000,000,000)원 -" + results.get("6") + "개");
+    }
+
+    private static void printProfit(Map<String, Integer> results, int purchase) {
+        long totalPrize = 0;
+        totalPrize += (long) results.get("3") * 5_000;
+        totalPrize += (long) results.get("4") * 50_000;
+        totalPrize += (long) results.get("5") * 1_500_000;
+        totalPrize += (long) results.get("5_bonus") * 30_000_000;
+        totalPrize += (long) results.get("6") * 2_000_000_000;
+
+        double profitRate = ((double) totalPrize / purchase) * 100;
+        System.out.printf("총 수익률은 %.1f%%입니다.%n", profitRate);
     }
 
     // 구입금액 입력
