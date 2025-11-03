@@ -20,7 +20,7 @@ public class Lotto {
             throw new IllegalArgumentException("[ERROR] 로또 번호에 중복된 숫자가 있습니다.");
         }
         if (numbers.stream().anyMatch(n -> n < 1 || n > 45)) {
-            throw new IllegalArgumentException("[ERROR] 로또 번호는 1에서 45사이의 숫자여야 합니다.");
+            throw new IllegalArgumentException("[ERROR] 로또 번호는 1부터 45사이의 숫자여야 합니다.");
         }
     }
 
