@@ -57,6 +57,7 @@ public class Application {
         System.out.println("당첨 통계");
         System.out.println("---");
         for (Rank rank : Rank.values()) {
+            if (rank == Rank.NONE) continue;
             System.out.println(rank.getMessage() + " - " + results.get(rank) + "개");
         }
     }
