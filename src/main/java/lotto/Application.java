@@ -6,9 +6,15 @@ import java.util.*;
 
 
 public class Application {
+    private static final Map<Integer, Integer> PRIZE_MAP = Map.of(
+            6, 2_000_000_000,
+            5, 1_500_000,
+            4, 50_000,
+            3, 5_000
+    );
+
     public static void main(String[] args) {
         // TODO: 프로그램 구현
-
         System.out.println("구입금액을 입력해 주세요.");
         int purchase = readPurchase();
         int ticketCount = purchase / 1000;
@@ -21,6 +27,47 @@ public class Application {
         List<Integer> winningNumbers = readWinningNumbers();
         System.out.println("보너스 번호를 입력해 주세요.");
         int bonus = readBonusNumber(winningNumbers);
+
+        Map<String, Integer> results = checkResults(lottos, winningNumbers, bonus);
+        printResults(results);
+    }
+
+    // 로또 당첨 결과 판별
+    private static Map<String, Integer> checkResults(List<Lotto> lottos, List<Integer> winningNumbers, int bonus){
+        Map<String, Integer> resultCount = new LinkedHashMap<>();
+        resultCount.put("3", 0);
+        resultCount.put("4", 0);
+        resultCount.put("5", 0);
+        resultCount.put("5_bonus", 0);
+        resultCount.put("6", 0);
+
+        for (Lotto lotto : lottos) {
+            int matchCount = (int) lotto.getNumbers().stream()
+                    .filter(winningNumbers::contains)
+                    .count();
+            if (matchCount == 6) resultCount.put("6", resultCount.get("6") + 1);
+            if (matchCount == 5 && lotto.getNumbers().contains(bonus)) {
+                resultCount.put("5_bonus", resultCount.get("5_bonus") + 1);
+            }
+            if (matchCount == 5 && !lotto.getNumbers().contains(bonus)) {
+                resultCount.put("5", resultCount.get("5") + 1);
+            }
+            if (matchCount == 4) resultCount.put("4", resultCount.get("4") + 1);
+            if (matchCount == 3) resultCount.put("3", resultCount.get("3") + 1);
+        }
+
+        return resultCount;
+    }
+
+    // 출력
+    private static void printResults(Map<String, Integer> results) {
+        System.out.println("당첨 통계");
+        System.out.println("---");
+        System.out.println("3개 일치 (5,000)원 - " + results.get("3") + "개");
+        System.out.println("4개 일치 (50,000)원 -" + results.get("4") + "개");
+        System.out.println("5개 일치 (1,500,000)원 -" + results.get("5") + "개");
+        System.out.println("5개 일치, 보너스 볼 일치 (30,000,000)원 -" + results.get("5_bonus") + "개");
+        System.out.println("6개 일치 (2,000,000,000)원 -" + results.get("6") + "개");
     }
 
     // 구입금액 입력
