@@ -2,6 +2,7 @@ package lotto;
 
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
+import java.awt.SystemColor;
 import java.util.*;
 
 
@@ -15,22 +16,27 @@ public class Application {
 
     public static void main(String[] args) {
         // TODO: 프로그램 구현
-        System.out.println("구입금액을 입력해 주세요.");
-        int purchase = readPurchase();
-        int ticketCount = purchase / 1000;
 
-        System.out.println(ticketCount + "개를 구매했습니다.");
-        List<Lotto> lottos = buyLottos(ticketCount);
-        lottos.forEach(lotto -> System.out.println(lotto.getNumbers()));
+        try {
+            System.out.println("구입금액을 입력해 주세요.");
+            int purchase = readPurchase();
+            int ticketCount = purchase / 1000;
 
-        System.out.println("당첨 번호를 입력해 주세요.");
-        List<Integer> winningNumbers = readWinningNumbers();
-        System.out.println("보너스 번호를 입력해 주세요.");
-        int bonus = readBonusNumber(winningNumbers);
+            System.out.println(ticketCount + "개를 구매했습니다.");
+            List<Lotto> lottos = buyLottos(ticketCount);
+            lottos.forEach(lotto -> System.out.println(lotto.getNumbers()));
 
-        Map<String, Integer> results = checkResults(lottos, winningNumbers, bonus);
-        printResults(results);
-        printProfit(results, purchase);
+            System.out.println("당첨 번호를 입력해 주세요.");
+            List<Integer> winningNumbers = readWinningNumbers();
+            System.out.println("보너스 번호를 입력해 주세요.");
+            int bonus = readBonusNumber(winningNumbers);
+
+            Map<String, Integer> results = checkResults(lottos, winningNumbers, bonus);
+            printResults(results);
+            printProfit(results, purchase);
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     // 로또 당첨 결과 판별
